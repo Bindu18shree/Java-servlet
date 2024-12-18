@@ -45,4 +45,14 @@ public class MilkDto {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "MilkDto{" +
+                "brand='" + brand + '\'' +
+                ", milkType='" + milkType + '\'' +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }

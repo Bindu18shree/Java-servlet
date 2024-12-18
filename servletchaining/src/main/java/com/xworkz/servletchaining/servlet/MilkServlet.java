@@ -1,5 +1,8 @@
 package com.xworkz.servletchaining.servlet;
 
+import com.xworkz.servletchaining.dto.MilkDto;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +30,28 @@ public class MilkServlet extends HttpServlet {
 
         String brand = req.getParameter("brand");
         String type = req.getParameter("milkType");
-        String quantity = req.getParameter("quantity");
+        int quantity = Integer.parseInt(req.getParameter("quantity"));
 
-        
+        double pricePerLitre = map.get(type); // Price for 1 litre
+        double pricePerHalfLitre = pricePerLitre/2; // Price for half litre
+        double pricePer250Ml = pricePerHalfLitre / 2; // Price for 0.25 litre
+
+        double totalPrice = 0.0;
+
+        if(quantity == 250){
+            totalPrice = pricePer250Ml;
+        } else if(quantity == 500) {
+            totalPrice = pricePerHalfLitre;
+        } else {
+            totalPrice = (quantity / 1000.0) * pricePerLitre;
+        }
+
+        MilkDto milkDto = new MilkDto(brand, type, quantity, totalPrice);
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("milkResult.jsp");
+
+        req.setAttribute("Milk",milkDto);
+
+        requestDispatcher.forward(req, resp);
     }
 }
